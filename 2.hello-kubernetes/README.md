@@ -39,14 +39,14 @@ component.dapr.io "statestore" configured
 ## Step 3 - Deploy the Node.js App with the Dapr Sidecar
 
 ```
-kubectl apply -f ../deploy/node.yaml
+kubectl apply -f ./deploy/node.yaml
 ```
 
 This will deploy our Node.js app to Kubernetes. The Dapr control plane will automatically inject the Dapr sidecar to our Pod. If you take a look at the ```node.yaml``` file, you will see how Dapr is enabled for that deployment:
 
 ```dapr.io/enabled: true``` - this tells the Dapr control plane to inject a sidecar to this deployment.
 
-```dapr.io/id: nodeapp``` - this assigns a unique id or name to the Dapr, so it can be sent messages to and communicated with by other Dapr.
+```dapr.io/id: nodeapp``` - this assigns a unique id or name to the Dapr, so it can be sent messages to and communicated with by other Dapr apps.
 
 You'll also see the container image that we're deploying. If you want to update the code and deploy a new image, see **Next Steps** section. 
 
@@ -67,7 +67,7 @@ export NODE_APP=$(kubectl get svc nodeapp --output 'jsonpath={.status.loadBalanc
 ```
 
 ## Step 4 - Deploy the Python App with the Dapr Sidecar
-Next, let's take a quick look at our python app. Navigate to the python app in the kubernetes sample: `cd samples/2.hello-kubernetes/python` and open `app.py`.
+Next, let's take a quick look at our python app. Navigate to the python app in the kubernetes sample: `cd samples/1.hello-world` and open `app.py`.
 
 At a quick glance, this is a basic python app that posts JSON messages to `localhost:3500`, which is the default listening port for Dapr. We invoke our Node.js application's `neworder` endpoint by posting to `v1.0/invoke/nodeapp/method/neworder`. Our message contains some `data` with an orderId that increments once per second:
 
